@@ -5,6 +5,7 @@ export const UserContext = createContext({});
 export function UserContextProvider({ children }) {
     const [user, setUser] = useState(null);
     const [active, setActive] = useState(false)
+    const [root, setRoot] = useState(false)
 
     useEffect(() => {
         if (!user) {
@@ -13,6 +14,7 @@ export function UserContextProvider({ children }) {
                 console.log(data)
                 setUser(data.username)
                 setActive(data.active)
+                setRoot(data.root)
             })
         }
     }, [])

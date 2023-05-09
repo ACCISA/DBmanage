@@ -41,7 +41,7 @@ export default function LoginForm() {
   };
 
   if (redirectRoot){
-    return (<Navigate to={'root'}/>)
+    return (<Navigate to={'/root'}/>)
   }
 
   if (redirect){
