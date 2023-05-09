@@ -19,7 +19,7 @@ export default function RegisterForm(){
 
         if (!match) return;
 
-        axios.post("/register",{
+        axios.post("/register_root",{
           username:username,
           password:password
         })

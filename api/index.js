@@ -35,6 +35,27 @@ app.post("/register", async (req, res) => {
     const userDoc = await User.create({
       username,
       password: bcrypt.hashSync(password, secret),
+      active: false,
+      root: false
+    });
+    res.json(userDoc);
+  } catch (e) {
+    if (e.code == 11000){
+      res.status(422).json('username already exists');
+    } else {
+      res.status(500).json('unknown error')
+    }
+  }
+});
+
+app.post("/register_root", async (req, res) => {
+  const { username, password } = req.body;
+  try {
+    const userDoc = await User.create({
+      username,
+      password: bcrypt.hashSync(password, secret),
+      active: false,
+      root: true
     });
     res.json(userDoc);
   } catch (e) {
@@ -74,8 +95,8 @@ app.get("/profile", (req, res) => {
   if (token) {
     jwt.verify(token, jwtSecret, {}, async (err, user) => {
       if (err) throw err;
-      const { username, _id } = await User.findById(user.id);
-      res.json({ username, _id });
+      const { username, _id,active } = await User.findById(user.id);
+      res.json({ username, _id,active});
     });
   } else {
     res.json(null);

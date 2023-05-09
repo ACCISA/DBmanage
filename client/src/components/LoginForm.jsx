@@ -17,6 +17,7 @@ export default function LoginForm() {
   const [invalidCred, setInvalidCred] = useState(false)
   const {user,setUser} = useContext(UserContext)
   const [redirect,setRedirect] = useState(false)
+  const [redirectRoot,setRedirectRoot] = useState(false)
   const handleLogin = (ev) => {
     ev.preventDefault();
     console.log("yes");
@@ -25,6 +26,12 @@ export default function LoginForm() {
       password
     })
     .then((res) => {
+      if (res.data.root){
+        setRedirectRoot(true)
+        setUser(username)
+        return
+      }
+      console.log(res)
       setUser(username)
       setRedirect(true)
     })
@@ -32,6 +39,10 @@ export default function LoginForm() {
       setInvalidCred(true)
     })
   };
+
+  if (redirectRoot){
+    return (<Navigate to={'root'}/>)
+  }
 
   if (redirect){
     return (<Navigate to={'/dashboard'}/>)
