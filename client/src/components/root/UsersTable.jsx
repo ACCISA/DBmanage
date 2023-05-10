@@ -1,9 +1,8 @@
 import { useState,useEffect } from "react";
 import {Button} from "flowbite-react"
-import data from "./mock-data.json";
 import axios from "axios"
 export default function UsersTable() {
-  const [contacts, setContacts] = useState(data);
+  const [contacts, setContacts] = useState([]);
   const [change, setChange] = useState(false)
 
 

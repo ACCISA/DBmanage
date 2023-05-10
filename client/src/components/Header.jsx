@@ -1,10 +1,12 @@
 import { Navbar, Button } from "flowbite-react";
-import { useAuthUser } from "react-auth-kit";
-import { Link } from "react-router-dom";
+import { useAuthUser, useSignOut } from "react-auth-kit";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Header() {
-
   const auth = useAuthUser();
+  const signOut = useSignOut()
+  // useNavigate
+  
 
 
   return (
@@ -30,9 +32,23 @@ export default function Header() {
         </span>
       </Navbar.Brand>
       <div className="flex md:order-2">
+        {auth() && (
+          <Navbar.Collapse className="mt-3 items-center justify-center">
+            <Navbar.Link className="cursor-pointer" onClick={signOut}>Logout</Navbar.Link>
+          </Navbar.Collapse>
+        )}
+
         {!auth() && <Button>Get started</Button>}
-        {auth() && auth().data.root && <Link to={"/root"}><Button>Admin Panel</Button></Link>}
-        {auth() && !auth().data.root && <Link to={"/dashboard"}><Button>Dashboard</Button></Link>}
+        {auth() && auth().data.root && (
+          <Link to={"/root"}>
+            <Button className="ml-2">Admin Panel</Button>
+          </Link>
+        )}
+        {auth() && !auth().data.root && (
+          <Link to={"/dashboard"}>
+            <Button className="ml-2">Dashboard</Button>
+          </Link>
+        )}
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
