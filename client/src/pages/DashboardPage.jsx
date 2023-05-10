@@ -8,7 +8,7 @@ export default function DashboardPage(){
 
     const auth = useAuthUser()
 
-    if (user && !active){
+    if (!auth().data.active){
         return (<>Your account has not been activated yet {auth().data.username}</>)
     }
 

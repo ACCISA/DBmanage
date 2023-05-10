@@ -68,20 +68,45 @@ app.post("/register_root", async (req, res) => {
 });
 
 app.get('/users', (req,res) => {
-  const {_auth} = req.cookies
-  console.log(_auth)
+  const {_auth, _auth_state} = req.cookies
+  const jsonData = JSON.parse(_auth_state)
+
   if (_auth){
     jwt.verify(_auth, jwtSecret, {}, async (err, user) => {
       if (err) throw err;
+      if (!jsonData.data.root){
+        res.status(401).json("unauthorized")
+      }
       const users = await User.find({"root":false});
       res.json(users);
     });
   } else {
     res.status(401).json('token missing')
   }
+})
 
+app.post("/activate", (req, res) => {
+  const {_auth, _auth_state} = req.cookies
+  const {id} = req.body
+  const jsonData = JSON.parse(_auth_state)
 
+  if (_auth){
+    jwt.verify(_auth, jwtSecret, {}, async (err, user) => {
+      if (err) throw err;
+      if (!jsonData.data.root){
+        res.status(401).json("unauthorized")
+      }
+      const userDoc = await User.findById(id);
 
+      userDoc.set({
+        active: true
+      })
+      userDoc.save()
+      res.json("ok");
+    });
+  } else {
+    req.status(401).json("token missing")
+  }
 })
 
 app.post("/login", async (req, res) => {
@@ -106,6 +131,8 @@ app.post("/login", async (req, res) => {
     res.status(422).json("not found");
   }
 });
+
+
 
 app.get("/profile", (req, res) => {
   const { _auth } = req.cookies;
