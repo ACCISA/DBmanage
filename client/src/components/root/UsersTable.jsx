@@ -6,17 +6,14 @@ export default function UsersTable() {
   const [contacts, setContacts] = useState(data);
   const [change, setChange] = useState(false)
 
-  const handleTest = () =>{
-    axios.get("/users")
-  }
 
 
-  const handleDeActive = ev => {
-
+  const handleDeActive = ev => {  
+    axios.post("/deactivate", {id:ev.target.id})
+    setChange(true)
   }
 
   const handleActive = ev => {
-    console.log(ev.target.id)
     axios.post("/activate", {id:ev.target.id})
     setChange(true)
   }
@@ -30,9 +27,10 @@ export default function UsersTable() {
 
   return (
     
-    <div className="app-container table-fixed bg-gray-400">
-      <table>
-        <thead className="bg-blue-200">
+    <div className="table-auto text-white flex justify-center items-center flex-col m-10 border-4">
+      <div className="text-black text-xl font-bold m-4">Users Database</div>
+      <table className="border-black bg-gray-400 border-separate border-spacing-2 border">
+        <thead className="bg-gray-500">
           <tr>
             <th>Users</th>
             <th>Status</th>
@@ -44,15 +42,14 @@ export default function UsersTable() {
           {contacts &&
             contacts.map((contact) => (
               <tr>
-                <td>{contact.username}</td>
-                {contact.active && (<><td>Active</td><td><Button onClick={handleDeActive}>Deactivate</Button></td></>)}
-                {!contact.active && (<><td>Inactive</td><td><button className="bg-gray-500 rounded-md p-2 m-2" id={contact._id} ta={"s"} onClick={handleActive}>Ativate</button></td></>)}
+                <td className="p-4 border-2">{contact.username}</td>
+                {contact.active && (<><td className="p-4 border-2">Active  </td><td><button className="bg-gray-500 rounded-md border-2 p-2 m-2 w-30 hover:bg-blue-600" id={contact._id} onClick={handleDeActive}>Deactivate</button></td></>)}
+                {!contact.active && (<><td className="p-4 border-2 text-red-500">Inactive</td><td><button className="bg-gray-500 rounded-md border-2 p-2 m-2 w-30 hover:bg-blue-600" id={contact._id} ta={"s"} onClick={handleActive}>Ativate</button></td></>)}
                 
               </tr>
             ))}
         </tbody>
       </table>
-      <Button onClick={handleTest}>Test API</Button>
     </div>
   );
 }

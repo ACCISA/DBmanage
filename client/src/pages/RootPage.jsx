@@ -12,8 +12,8 @@ export default function RootPage() {
     return(<Navigate to={'/'}/>)
   }
 
-  return (<>
+  return (<div className="flex flex-col justify-center">
     <UsersTable/>
-  </>)
+  </div>)
 
 }

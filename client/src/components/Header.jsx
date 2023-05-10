@@ -1,6 +1,12 @@
 import { Navbar, Button } from "flowbite-react";
+import { useAuthUser } from "react-auth-kit";
+import { Link } from "react-router-dom";
 
 export default function Header() {
+
+  const auth = useAuthUser();
+
+
   return (
     <Navbar fluid={true} rounded={true}>
       <Navbar.Brand href="/" className="gap-2">
@@ -24,7 +30,9 @@ export default function Header() {
         </span>
       </Navbar.Brand>
       <div className="flex md:order-2">
-        <Button>Get started</Button>
+        {!auth() && <Button>Get started</Button>}
+        {auth() && auth().data.root && <Link to={"/root"}><Button>Admin Panel</Button></Link>}
+        {auth() && !auth().data.root && <Link to={"/dashboard"}><Button>Dashboard</Button></Link>}
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
