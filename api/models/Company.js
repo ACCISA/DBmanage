@@ -7,6 +7,6 @@ const CompanySchema = new Schema({
   owner: {type:mongoose.Schema.Types.ObjectId, ref:"User"}
 });
 
-const UserModel = mangoose.model("Company", CompanySchema);
+const UserModel = mongoose.model("Company", CompanySchema);
 
 module.exports = UserModel;

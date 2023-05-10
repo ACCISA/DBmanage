@@ -7,7 +7,7 @@ const UserSchema = new Schema({
   active: Boolean,
   root: Boolean,
   company: String,
-  companyID: Integer
+  companyID: Number
 });
 
 const UserModel = mangoose.model("User", UserSchema);

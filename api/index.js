@@ -2,8 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const User = require("./models/User.js");
-// const Family = require("./models/Family.js");
-// const Member = require("./models/Member.js");
+const Company = require("./models/Company.js");
 const app = express();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -26,9 +25,6 @@ app.get("/test", (req, res) => {
   res.json("test ok");
 });
 
-
-
-
 app.post("/register", async (req, res) => {
   const { username, password } = req.body;
   try {
@@ -36,14 +32,14 @@ app.post("/register", async (req, res) => {
       username,
       password: bcrypt.hashSync(password, secret),
       active: false,
-      root: false
+      root: false,
     });
     res.json(userDoc);
   } catch (e) {
-    if (e.code == 11000){
-      res.status(422).json('username already exists');
+    if (e.code == 11000) {
+      res.status(422).json("username already exists");
     } else {
-      res.status(500).json('unknown error')
+      res.status(500).json("unknown error");
     }
   }
 });
@@ -55,93 +51,111 @@ app.post("/register_root", async (req, res) => {
       username,
       password: bcrypt.hashSync(password, secret),
       active: false,
-      root: false
+      root: false,
     });
     res.json(userDoc);
   } catch (e) {
-    if (e.code == 11000){
-      res.status(422).json('username already exists');
+    if (e.code == 11000) {
+      res.status(422).json("username already exists");
     } else {
-      res.status(500).json('unknown error')
+      res.status(500).json("unknown error");
     }
   }
 });
 
-app.get('/users', (req,res) => {
-  const {_auth, _auth_state} = req.cookies
-  const jsonData = JSON.parse(_auth_state)
-
-  if (_auth){
+app.post("/assign", (req, res) => {
+  const { _auth, _auth_state } = req.cookies;
+  const { companyId, userId } = req.body;
+  const jsonData = JSON.parse(_auth_state);
+  if (_auth) {
     jwt.verify(_auth, jwtSecret, {}, async (err, user) => {
       if (err) throw err;
-      if (!jsonData.data.root){
-        res.status(401).json("unauthorized")
+      if (!jsonData.data.root) {
+        res.status(401).json("unauthorized");
+        return;
       }
-      const users = await User.find({"root":false});
+      const userDoc = await User.findById(userId);
+      const companyDoc = await Company.findById(companyId);
+      companyDoc.set({
+        owner: userDoc._id,
+      });
+      companyDoc.save();
+    });
+  }
+});
+
+app.get("/users", (req, res) => {
+  const { _auth, _auth_state } = req.cookies;
+  const jsonData = JSON.parse(_auth_state);
+
+  if (_auth) {
+    jwt.verify(_auth, jwtSecret, {}, async (err, user) => {
+      if (err) throw err;
+      if (!jsonData.data.root) {
+        res.status(401).json("unauthorized");
+        return;
+      }
+      const users = await User.find({ root: false });
       res.json(users);
     });
   } else {
-    res.status(401).json('token missing')
+    res.status(401).json("token missing");
   }
-})
+});
 
 app.post("/activate", (req, res) => {
-  const {_auth, _auth_state} = req.cookies
-  const {id} = req.body
-  const jsonData = JSON.parse(_auth_state)
+  const { _auth, _auth_state } = req.cookies;
+  const { id } = req.body;
+  const jsonData = JSON.parse(_auth_state);
 
-  if (_auth){
+  if (_auth) {
     jwt.verify(_auth, jwtSecret, {}, async (err, user) => {
       if (err) throw err;
-      if (!jsonData.data.root){
-        res.status(401).json("unauthorized")
+      if (!jsonData.data.root) {
+        res.status(401).json("unauthorized");
       }
-      try{
+      try {
         const userDoc = await User.findById(id);
         userDoc.set({
-          active: true
-        })
-        userDoc.save()
+          active: true,
+        });
+        userDoc.save();
         res.json("ok");
-      } catch (e){
-        res.json("no user found")
+      } catch (e) {
+        res.json("no user found");
       }
     });
   } else {
-    req.status(401).json("token missing")
+    req.status(401).json("token missing");
   }
-})
-
+});
 
 app.post("/deactivate", (req, res) => {
-  const {_auth, _auth_state} = req.cookies
-  const {id} = req.body
-  const jsonData = JSON.parse(_auth_state)
+  const { _auth, _auth_state } = req.cookies;
+  const { id } = req.body;
+  const jsonData = JSON.parse(_auth_state);
 
-  if (_auth){
+  if (_auth) {
     jwt.verify(_auth, jwtSecret, {}, async (err, user) => {
       if (err) throw err;
-      if (!jsonData.data.root){
-        res.status(401).json("unauthorized")
+      if (!jsonData.data.root) {
+        res.status(401).json("unauthorized");
       }
-      try{
+      try {
         const userDoc = await User.findById(id);
         userDoc.set({
-          active: false
-        })
-        userDoc.save()
+          active: false,
+        });
+        userDoc.save();
         res.json("ok");
-      } catch (e){
-        res.json("no user found")
+      } catch (e) {
+        res.json("no user found");
       }
-
-      
     });
   } else {
-    req.status(401).json("token missing")
+    req.status(401).json("token missing");
   }
-})
-
+});
 
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
@@ -155,7 +169,7 @@ app.post("/login", async (req, res) => {
         {},
         (err, token) => {
           if (err) throw err;
-          res.json({userDoc,token});
+          res.json({ userDoc, token });
         }
       );
     } else {
@@ -166,15 +180,13 @@ app.post("/login", async (req, res) => {
   }
 });
 
-
-
 app.get("/profile", (req, res) => {
   const { _auth } = req.cookies;
   if (token) {
     jwt.verify(token, jwtSecret, {}, async (err, user) => {
       if (err) throw err;
-      const { username, _id,active, root } = await User.findById(user.id);
-      res.json({ username, _id,active, root});
+      const { username, _id, active, root } = await User.findById(user.id);
+      res.json({ username, _id, active, root });
     });
   } else {
     res.json(null);
@@ -184,6 +196,5 @@ app.get("/profile", (req, res) => {
 // app.post("/logout", (req, res) => {
 //   res.cookie("token", "").json(true);
 // });
-
 
 app.listen(4000);
