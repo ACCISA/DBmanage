@@ -2,6 +2,7 @@ import { useContext } from "react"
 import { UserContext } from "../UserContext"
 import { Navigate } from "react-router-dom"
 import {useAuthUser} from 'react-auth-kit'
+import CompanyInfo from "../components/dashboard/CompanyInfo"
 
 export default function DashboardPage(){
     const {user,setUser,active} = useContext(UserContext)
@@ -13,6 +14,8 @@ export default function DashboardPage(){
     }
 
     return (
-        <>Your Dashboard</>
+        <>Your Dashboard
+        <CompanyInfo/>
+        </>
     )
 }

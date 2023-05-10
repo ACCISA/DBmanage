@@ -5,7 +5,9 @@ const UserSchema = new Schema({
   username: {type: String, unique: true },
   password: String,
   active: Boolean,
-  root: Boolean
+  root: Boolean,
+  company: String,
+  companyID: Integer
 });
 
 const UserModel = mangoose.model("User", UserSchema);
