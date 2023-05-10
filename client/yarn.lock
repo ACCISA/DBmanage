@@ -1144,6 +1144,7 @@ __metadata:
     flowbite-react: ^0.4.4
     postcss: ^8.4.23
     react: ^18.2.0
+    react-auth-kit: ^2.12.2
     react-dom: ^18.2.0
     react-router-dom: ^6.11.1
     tailwindcss: ^3.3.2
@@ -2464,6 +2465,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"js-cookie@npm:^3.0.1":
+  version: 3.0.5
+  resolution: "js-cookie@npm:3.0.5"
+  checksum: 2dbd2809c6180fbcf060c6957cb82dbb47edae0ead6bd71cbeedf448aa6b6923115003b995f7d3e3077bfe2cb76295ea6b584eb7196cca8ba0a09f389f64967a
+  languageName: node
+  linkType: hard
+
 "js-sdsl@npm:^4.1.4":
   version: 4.4.0
   resolution: "js-sdsl@npm:4.4.0"
@@ -2528,6 +2536,13 @@ __metadata:
     array-includes: ^3.1.5
     object.assign: ^4.1.3
   checksum: a2ed78cac49a0f0c4be8b1eafe3c5257a1411341d8e7f1ac740debae003de04e5f6372bfcfbd9d082e954ffd99aac85bcda85b7c6bc11609992483f4cdc0f745
+  languageName: node
+  linkType: hard
+
+"jwt-decode@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "jwt-decode@npm:3.1.2"
+  checksum: 20a4b072d44ce3479f42d0d2c8d3dabeb353081ba4982e40b83a779f2459a70be26441be6c160bfc8c3c6eadf9f6380a036fbb06ac5406b5674e35d8c4205eeb
   languageName: node
   linkType: hard
 
@@ -3224,6 +3239,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-auth-kit@npm:^2.12.2":
+  version: 2.12.2
+  resolution: "react-auth-kit@npm:2.12.2"
+  dependencies:
+    js-cookie: ^3.0.1
+    jwt-decode: ^3.1.2
+    react: ">=16.8.0 || ^17.x || ^18.x"
+    react-router-dom: ^6.2.0
+  peerDependencies:
+    js-cookie: ^3.0.1
+    jwt-decode: ^3.1.2
+    react: ">=16.8.0 || ^17.x || ^18.x"
+    react-dom: ">=16.8.0 || ^17.x || ^18.x"
+    react-router-dom: ^6.2.0
+  checksum: a9df565d356f2246a7fbc5aefe0b469f78970c396ec577a7f66e678aa84263649b964c8596fce07620fd5ea1c8c732343754d07ab0fa7742d4a24eaf9194122e
+  languageName: node
+  linkType: hard
+
 "react-dom@npm:^18.2.0":
   version: 18.2.0
   resolution: "react-dom@npm:18.2.0"
@@ -3273,7 +3306,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^6.11.1":
+"react-router-dom@npm:^6.11.1, react-router-dom@npm:^6.2.0":
   version: 6.11.1
   resolution: "react-router-dom@npm:6.11.1"
   dependencies:
@@ -3297,7 +3330,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^18.2.0":
+"react@npm:>=16.8.0 || ^17.x || ^18.x, react@npm:^18.2.0":
   version: 18.2.0
   resolution: "react@npm:18.2.0"
   dependencies:

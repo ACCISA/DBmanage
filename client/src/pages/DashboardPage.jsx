@@ -1,16 +1,15 @@
 import { useContext } from "react"
 import { UserContext } from "../UserContext"
 import { Navigate } from "react-router-dom"
+import {useAuthUser} from 'react-auth-kit'
 
 export default function DashboardPage(){
     const {user,setUser,active} = useContext(UserContext)
 
-    if (!user){
-        return (<Navigate to={'/login'} />)
-    }
+    const auth = useAuthUser()
 
     if (user && !active){
-        return (<>Your account has not been activated yet</>)
+        return (<>Your account has not been activated yet {auth().data.username}</>)
     }
 
     return (

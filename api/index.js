@@ -55,7 +55,7 @@ app.post("/register_root", async (req, res) => {
       username,
       password: bcrypt.hashSync(password, secret),
       active: false,
-      root: true
+      root: false
     });
     res.json(userDoc);
   } catch (e) {
@@ -66,6 +66,23 @@ app.post("/register_root", async (req, res) => {
     }
   }
 });
+
+app.get('/users', (req,res) => {
+  const {_auth} = req.cookies
+  console.log(_auth)
+  if (_auth){
+    jwt.verify(_auth, jwtSecret, {}, async (err, user) => {
+      if (err) throw err;
+      const users = await User.find({"root":false});
+      res.json(users);
+    });
+  } else {
+    res.status(401).json('token missing')
+  }
+
+
+
+})
 
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
@@ -79,7 +96,7 @@ app.post("/login", async (req, res) => {
         {},
         (err, token) => {
           if (err) throw err;
-          res.cookie("token", token).json(userDoc);
+          res.json({userDoc,token});
         }
       );
     } else {
@@ -91,12 +108,12 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/profile", (req, res) => {
-  const { token } = req.cookies;
+  const { _auth } = req.cookies;
   if (token) {
     jwt.verify(token, jwtSecret, {}, async (err, user) => {
       if (err) throw err;
-      const { username, _id,active } = await User.findById(user.id);
-      res.json({ username, _id,active});
+      const { username, _id,active, root } = await User.findById(user.id);
+      res.json({ username, _id,active, root});
     });
   } else {
     res.json(null);

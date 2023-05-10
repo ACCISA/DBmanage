@@ -10,42 +10,58 @@ import {
 import { useContext, useState } from "react";
 import { UserContext } from "../UserContext";
 import { Navigate } from "react-router-dom";
+import { useSignIn } from "react-auth-kit";
 
 export default function LoginForm() {
   const [username, setUsername] = useState("");
+  const signIn = useSignIn();
   const [password, setPassword] = useState("");
-  const [invalidCred, setInvalidCred] = useState(false)
-  const {user,setUser} = useContext(UserContext)
-  const [redirect,setRedirect] = useState(false)
-  const [redirectRoot,setRedirectRoot] = useState(false)
+  const [invalidCred, setInvalidCred] = useState(false);
+  const { user, setUser, root, setRoot } = useContext(UserContext);
+  const [redirect, setRedirect] = useState(false);
+  const [redirectRoot, setRedirectRoot] = useState(false);
   const handleLogin = (ev) => {
     ev.preventDefault();
-    console.log("yes");
-    axios.post('/login',{
-      username,
-      password
-    })
-    .then((res) => {
-      if (res.data.root){
-        setRedirectRoot(true)
-        setUser(username)
-        return
-      }
-      console.log(res)
-      setUser(username)
-      setRedirect(true)
-    })
-    .catch((err) => {
-      setInvalidCred(true)
-    })
+    axios
+      .post("/login", {
+        username,
+        password,
+      })
+      .then((res) => {
+        console.log(res);
+        const data = res.data.userDoc
+        console.log(data)
+        signIn({
+          token: res.data.token,
+          expiresIn: 3600,
+          tokenType: "Bearer",
+          authState: { data},
+        });
+
+        if (data.root) {
+          console.log('root user login')
+          setRedirectRoot(true);
+          setUser(username);
+          setRoot(true);
+          return;
+        }
+        console.log(res);
+        setUser(username);
+        setRedirect(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        setInvalidCred(true);
+      });
   };
 
-  if (redirectRoot){
-    return (<Navigate to={'/root'}/>)
+  if (redirectRoot) {
+    console.log("redirecting");
+    return <Navigate to={"/root"} />;
   }
 
-  if (redirect){
-    return (<Navigate to={'/dashboard'}/>)
+  if (redirect) {
+    return <Navigate to={"/dashboard"} />;
   }
 
   return (
@@ -59,7 +75,7 @@ export default function LoginForm() {
             <TextInput
               value={username}
               onChange={(ev) => {
-                setInvalidCred(false)
+                setInvalidCred(false);
                 setUsername(ev.target.value);
               }}
               id="email1"
@@ -77,7 +93,7 @@ export default function LoginForm() {
               required={true}
               value={password}
               onChange={(ev) => {
-                setInvalidCred(false)
+                setInvalidCred(false);
                 setPassword(ev.target.value);
               }}
             />
@@ -86,11 +102,13 @@ export default function LoginForm() {
             {/* <Checkbox id="remember" />
             <Label htmlFor="remember">Remember me</Label> */}
           </div>
-          {invalidCred && (<Alert color="failure">
-            <span>
-              <span className="font-medium">Alert!</span> Invalid Credentials.
-            </span>
-          </Alert>)}
+          {invalidCred && (
+            <Alert color="failure">
+              <span>
+                <span className="font-medium">Alert!</span> Invalid Credentials.
+              </span>
+            </Alert>
+          )}
           <Button type="submit">Login</Button>
         </form>
       </div>

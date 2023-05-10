@@ -8,6 +8,7 @@ import DashboardPage from "./pages/DashboardPage"
 import RootPage from "./pages/RootPage";
 import axios from "axios";
 import { UserContextProvider } from "./UserContext";
+import {RequireAuth} from "react-auth-kit"
 
 function App() {
   const [count, setCount] = useState(0);
@@ -20,8 +21,8 @@ function App() {
           <Route index element={<IndexPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/root" element={<RootPage />} />
+          <Route path="/dashboard" element={<RequireAuth loginPath="/login"> <DashboardPage/></RequireAuth>} />
+          <Route path="/root" element={<RequireAuth loginPath="/login"> <RootPage/></RequireAuth>} />
         </Route>
       </Routes>
     </UserContextProvider>
