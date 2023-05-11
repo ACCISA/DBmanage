@@ -5,9 +5,10 @@ const UserSchema = new Schema({
   username: {type: String, unique: true },
   password: String,
   active: Boolean,
-  root: Boolean,
-  company: String,
-  companyID: Number
+  root: Boolean, //root admin, should never be true
+  company: String, 
+  companyID: Number, 
+  owner: Boolean, // does the user a root user for a company
 });
 
 const UserModel = mangoose.model("User", UserSchema);

@@ -63,7 +63,7 @@ app.post("/register_root", async (req, res) => {
   }
 });
 
-app.post("/assign", (req, res) => {
+app.post("/assign_owner", (req, res) => {
   const { _auth, _auth_state } = req.cookies;
   const { companyId, userId } = req.body;
   const jsonData = JSON.parse(_auth_state);
@@ -75,6 +75,56 @@ app.post("/assign", (req, res) => {
         return;
       }
       const userDoc = await User.findById(userId);
+      const companyDoc = await Company.findById(companyId);
+      companyDoc.set({
+        owner: userDoc._id,
+      });
+      companyDoc.save();
+    });
+  }
+});
+
+app.get("/find_user", (req, res) => {
+  // find a user and return true if the user exists
+  const { _auth, _auth_state } = req.cookies;
+  const { usernameLook } = req.body; // the use found must exist see /find_user
+  const jsonData = JSON.parse(_auth_state);
+  if (_auth) {
+    jwt.verify(_auth, jwtSecret, {}, async (err, user) => {
+      if (err) throw err;
+      if (!jsonData.data.owner) {
+        // check if owner
+        res.status(401).json("unauthorized, not owner");
+        return;
+      }
+      const { username } = await User.findOne({ username: usernameLook });
+      if (username) {
+        res.json({ found: true });
+      } else {
+        res.json({ found: false });
+      }
+    });
+  }
+});
+
+app.post("/assign_company", (req, res) => {
+  const { _auth, _auth_state } = req.cookies;
+  const { companyId, userId, user } = req.body; // the use found must exist see /find_user
+  const jsonData = JSON.parse(_auth_state);
+  if (_auth) {
+    jwt.verify(_auth, jwtSecret, {}, async (err, user) => {
+      if (err) throw err;
+      if (!jsonData.data.owner) {
+        // check if owner
+        res.status(401).json("unauthorized, not owner");
+        return;
+      }
+      const userDoc = await User.findById(userId);
+      if (userDoc.companyID != companyId) {
+        // check if right company
+        res.stauts(401).json("unauthorized, owner but invalid companyId");
+        return;
+      }
       const companyDoc = await Company.findById(companyId);
       companyDoc.set({
         owner: userDoc._id,
