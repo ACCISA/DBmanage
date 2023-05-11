@@ -1,3 +1,8 @@
+const User = require("../models/User");
+const Company = require("../models/Company");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
 const assignOwnerRouter = (req, res) => {
   const { _auth, _auth_state } = req.cookies;
   const { companyId, userId } = req.body;

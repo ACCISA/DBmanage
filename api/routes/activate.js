@@ -1,3 +1,7 @@
+const User = require("../models/User.js");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
 const activateRouter = (req, res) => {
   const { _auth, _auth_state } = req.cookies;
   const { id } = req.body;

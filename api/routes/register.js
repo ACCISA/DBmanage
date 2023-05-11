@@ -1,3 +1,6 @@
+const User = require("../models/User.js");
+const bcrypt = require("bcryptjs");
+
 const registerRouter = async (req, res) => {
   const { username, password } = req.body;
   try {

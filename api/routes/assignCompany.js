@@ -1,3 +1,7 @@
+const User = require("../models/User");
+const jwt = require("jsonwebtoken");
+const Company = require("../models/Company");
+
 const assignCompanyRouter = (req, res) => {
   const { _auth, _auth_state } = req.cookies;
   const { companyId, userId, user } = req.body; // the use found must exist see /find_user

@@ -1,3 +1,6 @@
+const User = require("../models/User.js");
+const jwt = require("jsonwebtoken");
+
 const profileRouter = (req, res) => {
   const { _auth } = req.cookies;
   if (token) {

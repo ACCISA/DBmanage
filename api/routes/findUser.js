@@ -1,3 +1,6 @@
+const User = require("../models/User.js");
+const jwt = require("jsonwebtoken");
+
 const findUserRouter = (req, res) => {
   // find a user and return true if the user exists
   const { _auth, _auth_state } = req.cookies;

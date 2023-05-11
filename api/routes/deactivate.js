@@ -1,3 +1,6 @@
+const User = require("../models/User.js");
+const jwt = require("jsonwebtoken");
+
 const deactivateRouter = (req, res) => {
   const { _auth, _auth_state } = req.cookies;
   const { id } = req.body;
