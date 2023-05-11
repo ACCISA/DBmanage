@@ -1,3 +1,6 @@
+const User = require("../models/User.js");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const loginRouter = async (req, res) => {
   const { username, password } = req.body;
   const userDoc = await User.findOne({ username });

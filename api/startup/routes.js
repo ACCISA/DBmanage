@@ -21,6 +21,7 @@ const findUserRouter = require("../routes/findUser");
 
 module.exports = function (app) {
   require("dotenv").config();
+  mongoose.connect(process.env.MONGO_URL);
 
   app.use(express.json());
   app.use(cookieParser());
