@@ -18,6 +18,8 @@ const activateRouter = require("../routes/activate");
 const usersRouter = require("../routes/users");
 const assignCompanyRouter = require("../routes/assignCompany");
 const findUserRouter = require("../routes/findUser");
+const companiesRouter = require("../routes/companies");
+const addCompaniesRouter = require("../routes/addCompanies");
 
 module.exports = function (app) {
   require("dotenv").config();
@@ -33,7 +35,9 @@ module.exports = function (app) {
   );
   app.get("/test", testRouter);
   app.get("/find_user", findUserRouter);
+  app.get("/companies", companiesRouter);
   app.post("/register", registerRouter);
+  app.post("/add_company", addCompaniesRouter);
   app.post("/assign_owner", assignOwnerRouter);
   app.post("/login", loginRouter);
   app.get("/profile", profileRouter);
