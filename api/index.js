@@ -10,7 +10,7 @@ const cookieParser = require("cookie-parser");
 
 require("dotenv").config();
 const secret = bcrypt.genSaltSync(10);
-const jwtSecret = "fafafa";
+const process.env.JWT_SECRET = "fafafa";
 app.use(express.json());
 app.use(cookieParser());
 app.use(
@@ -68,7 +68,7 @@ app.post("/assign_owner", (req, res) => {
   const { companyId, userId } = req.body;
   const jsonData = JSON.parse(_auth_state);
   if (_auth) {
-    jwt.verify(_auth, jwtSecret, {}, async (err, user) => {
+    jwt.verify(_auth, process.env.JWT_SECRET, {}, async (err, user) => {
       if (err) throw err;
       if (!jsonData.data.root) {
         res.status(401).json("unauthorized");
@@ -90,7 +90,7 @@ app.get("/find_user", (req, res) => {
   const { usernameLook } = req.body; // the use found must exist see /find_user
   const jsonData = JSON.parse(_auth_state);
   if (_auth) {
-    jwt.verify(_auth, jwtSecret, {}, async (err, user) => {
+    jwt.verify(_auth, process.env.JWT_SECRET, {}, async (err, user) => {
       if (err) throw err;
       if (!jsonData.data.owner) {
         // check if owner
@@ -112,7 +112,7 @@ app.post("/assign_company", (req, res) => {
   const { companyId, userId, user } = req.body; // the use found must exist see /find_user
   const jsonData = JSON.parse(_auth_state);
   if (_auth) {
-    jwt.verify(_auth, jwtSecret, {}, async (err, user) => {
+    jwt.verify(_auth, process.env.JWT_SECRET, {}, async (err, user) => {
       if (err) throw err;
       if (!jsonData.data.owner) {
         // check if owner
@@ -139,7 +139,7 @@ app.get("/users", (req, res) => {
   const jsonData = JSON.parse(_auth_state);
 
   if (_auth) {
-    jwt.verify(_auth, jwtSecret, {}, async (err, user) => {
+    jwt.verify(_auth, process.env.JWT_SECRET, {}, async (err, user) => {
       if (err) throw err;
       if (!jsonData.data.root) {
         res.status(401).json("unauthorized");
@@ -159,7 +159,7 @@ app.post("/activate", (req, res) => {
   const jsonData = JSON.parse(_auth_state);
 
   if (_auth) {
-    jwt.verify(_auth, jwtSecret, {}, async (err, user) => {
+    jwt.verify(_auth, process.env.JWT_SECRET, {}, async (err, user) => {
       if (err) throw err;
       if (!jsonData.data.root) {
         res.status(401).json("unauthorized");
@@ -186,7 +186,7 @@ app.post("/deactivate", (req, res) => {
   const jsonData = JSON.parse(_auth_state);
 
   if (_auth) {
-    jwt.verify(_auth, jwtSecret, {}, async (err, user) => {
+    jwt.verify(_auth, process.env.JWT_SECRET, {}, async (err, user) => {
       if (err) throw err;
       if (!jsonData.data.root) {
         res.status(401).json("unauthorized");
@@ -215,7 +215,7 @@ app.post("/login", async (req, res) => {
     if (passOk) {
       jwt.sign(
         { username: userDoc.username, id: userDoc._id },
-        jwtSecret,
+        process.env.JWT_SECRET,
         {},
         (err, token) => {
           if (err) throw err;
@@ -233,7 +233,7 @@ app.post("/login", async (req, res) => {
 app.get("/profile", (req, res) => {
   const { _auth } = req.cookies;
   if (token) {
-    jwt.verify(token, jwtSecret, {}, async (err, user) => {
+    jwt.verify(token, process.env.JWT_SECRET, {}, async (err, user) => {
       if (err) throw err;
       const { username, _id, active, root } = await User.findById(user.id);
       res.json({ username, _id, active, root });

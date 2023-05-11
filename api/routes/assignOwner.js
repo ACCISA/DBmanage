@@ -3,7 +3,7 @@ const assignOwnerRouter = (req, res) => {
   const { companyId, userId } = req.body;
   const jsonData = JSON.parse(_auth_state);
   if (_auth) {
-    jwt.verify(_auth, jwtSecret, {}, async (err, user) => {
+    jwt.verify(_auth, process.env.JWT_SECRET, {}, async (err, user) => {
       if (err) throw err;
       if (!jsonData.data.root) {
         res.status(401).json("unauthorized");
