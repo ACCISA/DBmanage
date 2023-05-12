@@ -21,6 +21,8 @@ const assignOwnerRouter = (req, res) => {
       });
       companyDoc.save();
     });
+  } else {
+    req.status(401).json("token missing");
   }
 };
 

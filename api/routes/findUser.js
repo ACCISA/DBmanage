@@ -21,6 +21,8 @@ const findUserRouter = (req, res) => {
         res.json({ found: false });
       }
     });
+  } else {
+    req.status(401).json("token missing");
   }
 };
 

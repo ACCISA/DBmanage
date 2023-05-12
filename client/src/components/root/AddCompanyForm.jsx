@@ -26,9 +26,9 @@ export default function AddCompanyForm() {
             })
     }
     return (
-        <div>
-            <form className="flex flex-col gap-4 w-auto">
-                <div>
+        <div className="flex flex-col">
+            <form className="flex flex-col gap-4 w-auto justify-center items-center border-4 m-8">
+                <div className="m-8">
                     <div className="mb-2 block">
                         <Label value="Company Name" />
                     </div>
@@ -50,7 +50,7 @@ export default function AddCompanyForm() {
                         <span className="font-medium">Alert!</span> Company added.
                     </span>
                 </Alert>)}
-                <Button type="submit" className="w-40" onClick={handleAddCompany}>
+                <Button type="submit" className="w-40 mb-8" onClick={handleAddCompany}>
                     Submit
                 </Button>
             </form>

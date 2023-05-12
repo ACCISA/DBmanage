@@ -26,6 +26,8 @@ const addCompaniesRouter = (req, res) => {
         }
       }
     });
+  } else {
+    res.status(401).json("token missing");
   }
 };
 
