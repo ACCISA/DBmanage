@@ -20,6 +20,7 @@ const assignCompanyRouter = require("../routes/assignCompany");
 const findUserRouter = require("../routes/findUser");
 const companiesRouter = require("../routes/companies");
 const addCompaniesRouter = require("../routes/addCompanies");
+const deleteUserRouter = require("../routes/deleteUser.js")
 
 module.exports = function (app) {
   require("dotenv").config();
@@ -45,6 +46,7 @@ module.exports = function (app) {
   app.post("/activate", activateRouter);
   app.get("/users", usersRouter);
   app.post("/assign_company", assignCompanyRouter);
+  app.post("/delete_user", deleteUserRouter)
   //   app.use("/", indexRouter);
   //   app.use("/router1", router1Router);
   //   app.use("/router2", router2Router);

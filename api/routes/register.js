@@ -3,6 +3,8 @@ const bcrypt = require("bcryptjs");
 
 const registerRouter = async (req, res) => {
   const { username, password } = req.body;
+  const secret = bcrypt.genSaltSync(10);
+
   try {
     const userDoc = await User.create({
       username,
@@ -15,6 +17,7 @@ const registerRouter = async (req, res) => {
     if (e.code == 11000) {
       res.status(422).json("username already exists");
     } else {
+      console.log(e)
       res.status(500).json("unknown error");
     }
   }

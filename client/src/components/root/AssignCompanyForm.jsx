@@ -38,7 +38,7 @@ export default function AssignCompanyForm() {
                     <select name="cars" id="cars">
                         <option>Companies</option>
                         {companies && companies.map((company) =>
-                            (<option onClick={console.log("ㅁㄴㅇ")} value={company.name}>{company.name}</option>)
+                            (<option value={company.name}>{company.name}</option>)
                         )}
                     </select>
                 </div>

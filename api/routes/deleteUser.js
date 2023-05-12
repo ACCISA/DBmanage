@@ -1,9 +1,9 @@
-const User = require("../models/User.js");
+const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
-const deactivateRouter = (req, res) => {
+const deleteUserRouter = (req, res) => {
   const { _auth, _auth_state } = req.cookies;
-  const { id } = req.body;
+  const { userId } = req.body;
 
   if (_auth) {
     const jsonData = JSON.parse(_auth_state);
@@ -13,12 +13,7 @@ const deactivateRouter = (req, res) => {
         res.status(401).json("unauthorized");
       }
       try {
-        const userDoc = await User.findById(id);
-        userDoc.set({
-          active: false,
-        });
-        userDoc.save();
-        res.json("ok");
+        res.json(await User.deleteOne({ _id: userId }));
       } catch (e) {
         res.status(422).json("no user found");
       }
@@ -28,4 +23,4 @@ const deactivateRouter = (req, res) => {
   }
 };
 
-module.exports = deactivateRouter;
+module.exports = deleteUserRouter;
