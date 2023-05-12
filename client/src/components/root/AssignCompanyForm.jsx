@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Select from "react-select";
 import UserNotFoundAlert from "./alerts/UserNotFoundAlert";
+import AlreadyOwnerAlert from "./alerts/AlreadyOwnerAlert"
 import OwnerAssignedAlert from "./alerts/OwnerAssignedAlert";
 
 export default function AssignCompanyForm() {
@@ -10,7 +11,8 @@ export default function AssignCompanyForm() {
   const [username, setUsername] = useState("");
   const [company, setCompany] = useState("");
   const [notFound, setNotFound] = useState(false);
-  const [success, setSuccess] = useState(true);
+  const [success, setSuccess] = useState(false);
+  const [alreadyOwner, setAlreadyOwner] = useState(false)
   const options = [];
 
   for (let i = 0; i < companies.length; i++) {
@@ -19,13 +21,18 @@ export default function AssignCompanyForm() {
   const handleAssignCompany = (ev) => {
     console.log("cli");
     ev.preventDefault();
-    axios.post("/assign_owner", { company, username })
-    .then(({data}) => {
-        setSuccess(true)
-    })
-    .catch((err) => {
-      if (err.response.status == 422) setNotFound(true);
-    });
+    axios
+      .post("/assign_owner", { company, username })
+      .then(({ data }) => {
+        setSuccess(true);
+      })
+      .catch((err) => {
+        if (err.response.status == 422 && err.response.data == "user owner") {
+          setAlreadyOwner(true);
+          return;
+        }
+        if (err.response.status == 422) setNotFound(true);
+      });
   };
 
   useEffect(() => {
@@ -48,7 +55,8 @@ export default function AssignCompanyForm() {
             onChange={(ev) => {
               setUsername(ev.target.value);
               setNotFound(false);
-              setSuccess(false)
+              setSuccess(false);
+              setAlreadyOwner(false)
             }}
             className="w-40"
           />
@@ -63,7 +71,8 @@ export default function AssignCompanyForm() {
                     </select> */}
         </div>
         {notFound && <UserNotFoundAlert />}
-        {success && <OwnerAssignedAlert/>}
+        {success && <OwnerAssignedAlert />}
+        {alreadyOwner && <AlreadyOwnerAlert/>}
         <Button type="submit" className="w-40" onClick={handleAssignCompany}>
           Submit
         </Button>

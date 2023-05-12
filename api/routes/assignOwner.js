@@ -24,18 +24,20 @@ const assignOwnerRouter = (req, res) => { // todo
 
       // make sure user is not already owner of another company
       if (userDoc.owner) {
+        console.log("user alreayd an owner")
         res.status(422).json("user owner");
         return;
       }
-
+      console.log(companyDoc.owner)
       if (companyDoc.owner) {
         oldOwnerDoc = await User.findById(companyDoc.owner);
         oldOwnerDoc.set({
           owner: false,
           companyID: null,
         });
+        oldOwnerDoc.save();
+
       }
-      oldOwnerDoc.save();
       companyDoc.set({
         owner: userDoc._id,
       });
