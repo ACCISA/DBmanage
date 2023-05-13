@@ -10,6 +10,7 @@ const registerRouter = async (req, res) => {
       username,
       password: bcrypt.hashSync(password, secret),
       active: false,
+      owner: false,
       root: false,
     });
     res.json(userDoc);

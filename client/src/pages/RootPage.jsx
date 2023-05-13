@@ -7,7 +7,7 @@ import AssignCompanyForm from "../components/root/AssignCompanyForm";
 import AddCompanyForm from "../components/root/AddCompanyForm";
 import { Tabs } from "flowbite-react";
 import OwnerAssignedAlert from "../components/root/alerts/OwnerAssignedAlert";
-import OwnersTable from "../components/root/alerts/OwnersTable";
+import OwnersTable from "../components/root/OwnersTable";
 
 export default function RootPage() {
   const { user, setRoot, setUser, root } = useContext(UserContext);

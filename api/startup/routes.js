@@ -10,7 +10,7 @@ const cookieParser = require("cookie-parser");
 
 const testRouter = require("../routes/test");
 const registerRouter = require("../routes/register");
-const assignOwnerRouter = require("../routes/assignOwner.js");
+const assignOwnerRouter = require("../routes/assignOwner");
 const loginRouter = require("../routes/login");
 const profileRouter = require("../routes/profie");
 const deactivateRouter = require("../routes/deactivate");
@@ -20,8 +20,8 @@ const assignCompanyRouter = require("../routes/assignCompany");
 const findUserRouter = require("../routes/findUser");
 const companiesRouter = require("../routes/companies");
 const addCompaniesRouter = require("../routes/addCompanies");
-const deleteUserRouter = require("../routes/deleteUser.js")
-
+const deleteUserRouter = require("../routes/deleteUser")
+const ownersRouter = require("../routes/owners")
 module.exports = function (app) {
   require("dotenv").config();
   mongoose.connect(process.env.MONGO_URL);
@@ -45,6 +45,7 @@ module.exports = function (app) {
   app.post("/deactivate", deactivateRouter);
   app.post("/activate", activateRouter);
   app.get("/users", usersRouter);
+  app.get("/owners",ownersRouter)
   app.post("/assign_company", assignCompanyRouter);
   app.post("/delete_user", deleteUserRouter)
   //   app.use("/", indexRouter);

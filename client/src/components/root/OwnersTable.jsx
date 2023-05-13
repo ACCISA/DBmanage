@@ -10,7 +10,7 @@ export default function OwnersTable() {
   }
 
   useEffect(() => {
-    axios.get("/users").then(({ data }) => {
+    axios.get("/owners").then(({ data }) => {
       setOwners(data);
     });
   }, []);
