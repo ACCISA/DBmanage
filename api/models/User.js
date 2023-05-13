@@ -7,7 +7,7 @@ const UserSchema = new Schema({
   active: Boolean,
   root: Boolean, //root admin, should never be true
   company: String, 
-  companyID: Number, 
+  companyID: String, 
   owner: Boolean, // does the user a root user for a company
 });
 

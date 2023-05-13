@@ -1,12 +1,10 @@
 const User = require("../models/User");
 const Company = require("../models/Company");
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const assignOwnerRouter = (req, res) => {
-  // todo
+const removeOwnerRouter = (req, res) => {
   const { _auth, _auth_state } = req.cookies;
-  const { company, username } = req.body;
+  const { companyIDBody, userID } = req.body;
   const jsonData = JSON.parse(_auth_state);
   if (_auth) {
     jwt.verify(_auth, process.env.JWT_SECRET, {}, async (err, user) => {
@@ -15,8 +13,8 @@ const assignOwnerRouter = (req, res) => {
         res.status(401).json("unauthorized");
         return;
       }
-      const userDoc = await User.findOne({ username });
-      const companyDoc = await Company.findOne({ name: company });
+      const userDoc = await User.findById(userID);
+      const companyDoc = await Company.findById(companyIDBody);
 
       if (userDoc == null || companyDoc == null) {
         res.status(422).json("unknown user");
@@ -24,12 +22,7 @@ const assignOwnerRouter = (req, res) => {
       }
 
       // make sure user is not already owner of another company
-      if (userDoc.owner) {
-        console.log("user alreayd an owner");
-        res.status(422).json("user owner");
-        return;
-      }
-      console.log(companyDoc.owner);
+
       if (companyDoc.owner) {
         oldOwnerDoc = await User.findById(companyDoc.owner);
         if (oldOwnerDoc) {
@@ -40,23 +33,18 @@ const assignOwnerRouter = (req, res) => {
           });
           oldOwnerDoc.save();
         }
+        companyDoc.set({
+          owner: null,
+        });
+        companyDoc.save();
+        res.json("owner removed")
+      } else {
+        res.status(422).json("company has no owner");
       }
-      companyDoc.set({
-        owner: userDoc._id,
-      });
-      companyDoc.save();
-
-      userDoc.set({
-        owner: true,
-        company: companyDoc.name,
-        companyID: companyDoc._id,
-      });
-      userDoc.save();
-      res.json("new owner assigned");
     });
   } else {
     req.status(401).json("token missing");
   }
 };
 
-module.exports = assignOwnerRouter;
+module.exports = removeOwnerRouter;

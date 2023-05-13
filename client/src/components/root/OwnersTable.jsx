@@ -1,19 +1,31 @@
 import { Button, Table, Alert } from "flowbite-react";
 import { useState, useEffect } from "react";
-import axios from "axios"
+import axios from "axios";
 
 export default function OwnersTable() {
   const [owners, setOwners] = useState([]);
-  
-  const handleRemoveOwnership = (ev) =>{
+  const [refresh, setRefresh] = useState(false);
 
-  }
+  const handleRemoveOwnership = (ev) => {
+    console.log(ev.target.id)
+    const data = (ev.target.id).split(";")
+    const userId = data[0]
+    const companyID = data[1]
+    axios.post("/remove_owner", {companyIDBody: companyID, userID: userId})
+    .then(({data}) => {
+      setRefresh(true)
+    })
+    .catch((res) => {
+      console.log("unknown error")
+    })
+  };
 
   useEffect(() => {
+    setRefresh(false)
     axios.get("/owners").then(({ data }) => {
       setOwners(data);
     });
-  }, []);
+  }, [refresh]);
 
   return (
     <Table>
@@ -47,18 +59,15 @@ export default function OwnersTable() {
               {contact.username}
             </Table.Cell>
             <Table.Cell>
-              {contact.company && <a className="text-green-500">{contact.company}</a>}
+              {contact.company && (
+                <a className="text-green-500">{contact.company}</a>
+              )}
             </Table.Cell>
 
             <Table.Cell>
-              
-             
               <a
-                id={contact._id}
-                onClick={(ev) => {
-                //   setShowAlert(true);
-                //   setUserId(ev.target.id);
-                }}
+                id={contact._id+";"+contact.companyID}
+                onClick={handleRemoveOwnership}
                 className="ml-4 cursor-pointer font-medium text-red-600 hover:underline dark:text-blue-500"
               >
                 Remove
