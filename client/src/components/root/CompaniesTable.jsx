@@ -24,8 +24,8 @@ export default function CompaniesTable() {
         )}
 <Table className="mt-4">
       <Table.Head>
-        <Table.HeadCell>Username</Table.HeadCell>
-        <Table.HeadCell>Company</Table.HeadCell>
+        <Table.HeadCell>Name</Table.HeadCell>
+        <Table.HeadCell>Owned</Table.HeadCell>
         <Table.HeadCell>
           <span>Action</span>
         </Table.HeadCell>
