@@ -34,6 +34,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["dotenv", "npm:16.0.3"],\
             ["express", "npm:4.18.2"],\
             ["jsonwebtoken", "npm:9.0.0"],\
+            ["mongodb", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:5.5.0"],\
             ["mongoose", "npm:7.1.0"]\
           ],\
           "linkType": "SOFT"\
@@ -123,6 +124,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/bson-npm-5.2.0-046a4ac35e-1297f8776a.zip/node_modules/bson/",\
           "packageDependencies": [\
             ["bson", "npm:5.2.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:5.3.0", {\
+          "packageLocation": "./.yarn/cache/bson-npm-5.3.0-5ecf204f9b-c1e57630fe.zip/node_modules/bson/",\
+          "packageDependencies": [\
+            ["bson", "npm:5.3.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -640,6 +648,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
+        ["npm:5.5.0", {\
+          "packageLocation": "./.yarn/cache/mongodb-npm-5.5.0-17930a6d4b-fafb75195d.zip/node_modules/mongodb/",\
+          "packageDependencies": [\
+            ["mongodb", "npm:5.5.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
         ["virtual:9445189529b16d28defa204ecaaa6aaae97d2a2626eb99c23b7b68e016c0c60e690da1c293f5ce9971d5547877977c93e241cbae5647ff19f2d5ab728aaf8cbc#npm:5.3.0", {\
           "packageLocation": "./.yarn/__virtual__/mongodb-virtual-5194bef9e0/0/cache/mongodb-npm-5.3.0-2ac8ac2fcd-da86069555.zip/node_modules/mongodb/",\
           "packageDependencies": [\
@@ -649,6 +664,31 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/mongodb-client-encryption", null],\
             ["@types/snappy", null],\
             ["bson", "npm:5.2.0"],\
+            ["mongodb-client-encryption", null],\
+            ["mongodb-connection-string-url", "npm:2.6.0"],\
+            ["saslprep", "npm:1.0.3"],\
+            ["snappy", null],\
+            ["socks", "npm:2.7.1"]\
+          ],\
+          "packagePeers": [\
+            "@aws-sdk/credential-providers",\
+            "@types/aws-sdk__credential-providers",\
+            "@types/mongodb-client-encryption",\
+            "@types/snappy",\
+            "mongodb-client-encryption",\
+            "snappy"\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:5.5.0", {\
+          "packageLocation": "./.yarn/__virtual__/mongodb-virtual-256000a42b/0/cache/mongodb-npm-5.5.0-17930a6d4b-fafb75195d.zip/node_modules/mongodb/",\
+          "packageDependencies": [\
+            ["mongodb", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:5.5.0"],\
+            ["@aws-sdk/credential-providers", null],\
+            ["@types/aws-sdk__credential-providers", null],\
+            ["@types/mongodb-client-encryption", null],\
+            ["@types/snappy", null],\
+            ["bson", "npm:5.3.0"],\
             ["mongodb-client-encryption", null],\
             ["mongodb-connection-string-url", "npm:2.6.0"],\
             ["saslprep", "npm:1.0.3"],\
@@ -853,6 +893,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["dotenv", "npm:16.0.3"],\
             ["express", "npm:4.18.2"],\
             ["jsonwebtoken", "npm:9.0.0"],\
+            ["mongodb", "virtual:dc3fc578bfa5e06182a4d2be39ede0bc5b74940b1ffe0d70c26892ab140a4699787750fba175dc306292e80b4aa2c8c5f68c2a821e69b2c37e360c0dff36ff66#npm:5.5.0"],\
             ["mongoose", "npm:7.1.0"]\
           ],\
           "linkType": "SOFT"\

@@ -20,15 +20,18 @@ const assignCompanyRouter = require("../routes/assignCompany");
 const findUserRouter = require("../routes/findUser");
 const companiesRouter = require("../routes/companies");
 const addCompaniesRouter = require("../routes/addCompanies");
-const deleteUserRouter = require("../routes/deleteUser")
-const ownersRouter = require("../routes/owners")
-const removeOwnerRouter = require("../routes/removeOwner")
-const deleteCompanyRouter = require("../routes/deleteCompany")
+const deleteUserRouter = require("../routes/deleteUser");
+const ownersRouter = require("../routes/owners");
+const removeOwnerRouter = require("../routes/removeOwner");
+const deleteCompanyRouter = require("../routes/deleteCompany");
+
+const createInstanceRouter = require("../routes/createInstance")
 
 module.exports = function (app) {
   require("dotenv").config();
-  mongoose.connect(process.env.MONGO_URL);
-
+  mongoose.connect(process.env.MONGO_URL)
+ 
+  createInstanceRouter()
   app.use(express.json());
   app.use(cookieParser());
   app.use(
@@ -41,7 +44,7 @@ module.exports = function (app) {
   app.get("/find_user", findUserRouter);
   app.get("/companies", companiesRouter);
   app.get("/users", usersRouter);
-  app.get("/owners",ownersRouter)
+  app.get("/owners", ownersRouter);
   app.get("/profile", profileRouter);
 
   app.post("/register", registerRouter);
@@ -52,10 +55,10 @@ module.exports = function (app) {
   app.post("/activate", activateRouter);
 
   app.post("/assign_company", assignCompanyRouter);
-  app.post("/remove_owner", removeOwnerRouter)
-  app.post("/delete_user", deleteUserRouter)
+  app.post("/remove_owner", removeOwnerRouter);
+  app.post("/delete_user", deleteUserRouter);
 
-  app.post("/delete_company", deleteCompanyRouter)
+  app.post("/delete_company", deleteCompanyRouter);
   //   app.use("/", indexRouter);
   //   app.use("/router1", router1Router);
   //   app.use("/router2", router2Router);
