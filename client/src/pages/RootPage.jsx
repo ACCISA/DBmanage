@@ -8,6 +8,7 @@ import AddCompanyForm from "../components/root/AddCompanyForm";
 import { Tabs } from "flowbite-react";
 import OwnerAssignedAlert from "../components/root/alerts/OwnerAssignedAlert";
 import OwnersTable from "../components/root/OwnersTable";
+import CompaniesTable from "../components/root/CompaniesTable";
 
 export default function RootPage() {
   const { user, setRoot, setUser, root } = useContext(UserContext);
@@ -43,6 +44,7 @@ export default function RootPage() {
         >
           <AssignCompanyForm />
           <OwnersTable />
+          <CompaniesTable/>
         </Tabs.Item>
       </Tabs.Group>
     </div>
