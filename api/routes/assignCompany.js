@@ -5,8 +5,8 @@ const Company = require("../models/Company");
 const assignCompanyRouter = (req, res) => {
   const { _auth, _auth_state } = req.cookies;
   const { companyId, userId, user } = req.body; // the use found must exist see /find_user
-  const jsonData = JSON.parse(_auth_state);
   if (_auth) {
+    const jsonData = JSON.parse(_auth_state);
     jwt.verify(_auth, process.env.JWT_SECRET, {}, async (err, user) => {
       if (err) throw err;
       if (!jsonData.data.owner) {
