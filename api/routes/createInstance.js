@@ -1,4 +1,5 @@
 const MongoClient = require("mongodb").MongoClient;
+const User = require("../models/Company");
 const Company = require("../models/Company");
 const createInstanceRouter = (req, res) => {
   const { _auth, _auth_state } = req.cookies;

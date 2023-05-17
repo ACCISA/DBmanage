@@ -25,13 +25,13 @@ const ownersRouter = require("../routes/owners");
 const removeOwnerRouter = require("../routes/removeOwner");
 const deleteCompanyRouter = require("../routes/deleteCompany");
 
-const createInstanceRouter = require("../routes/createInstance")
+const createInstanceRouter = require("../routes/createInstance");
 
 module.exports = function (app) {
   require("dotenv").config();
-  mongoose.connect(process.env.MONGO_URL)
- 
-  createInstanceRouter()
+  mongoose.connect(process.env.MONGO_URL);
+
+  // createInstanceRouter()
   app.use(express.json());
   app.use(cookieParser());
   app.use(
