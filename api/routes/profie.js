@@ -6,8 +6,8 @@ const profileRouter = (req, res) => {
   if (_auth) {
     jwt.verify(_auth, process.env.JWT_SECRET, {}, async (err, user) => {
       if (err) throw err;
-      const { username, _id, active, root } = await User.findById(user.id);
-      res.json({ username, _id, active, root });
+      const { username, _id, active, root, company, companyID } = await User.findById(user.id);
+      res.json({ username, _id, active, root, company, companyID });
     });
   } else {
     res.json(null);
