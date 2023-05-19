@@ -6,14 +6,16 @@ import RegisterPage from "./pages/RegisterPage";
 import IndexPage from "./pages/IndexPage";
 import DashboardPage from "./pages/DashboardPage"
 import RootPage from "./pages/RootPage";
+import InstancePage from "./pages/InstancePage";
 import axios from "axios";
 import { UserContextProvider } from "./UserContext";
 import {RequireAuth} from "react-auth-kit"
 
 function App() {
-  const [count, setCount] = useState(0);
   axios.defaults.baseURL = "http://localhost:4000";
   axios.defaults.withCredentials = true;
+
+  
   return (
     <UserContextProvider>
       <Routes>
@@ -22,6 +24,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/dashboard" element={<RequireAuth loginPath="/login"> <DashboardPage/></RequireAuth>} />
+          <Route path="/dashboard/:instance" element={<RequireAuth loginPath="/login"> <InstancePage/></RequireAuth>} />
           <Route path="/root" element={<RequireAuth loginPath="/login"> <RootPage/></RequireAuth>} />
         </Route>
       </Routes>

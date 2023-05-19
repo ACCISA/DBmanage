@@ -24,7 +24,7 @@ const deleteUserRouter = require("../routes/deleteUser");
 const ownersRouter = require("../routes/owners");
 const removeOwnerRouter = require("../routes/removeOwner");
 const deleteCompanyRouter = require("../routes/deleteCompany");
-
+const instanceRouter = require("../routes/instance");
 const createInstanceRouter = require("../routes/createInstance");
 
 module.exports = function (app) {
@@ -46,6 +46,7 @@ module.exports = function (app) {
   app.get("/users", usersRouter);
   app.get("/owners", ownersRouter);
   app.get("/profile", profileRouter);
+  app.get("/instance", instanceRouter);
 
   app.post("/register", registerRouter);
   app.post("/add_company", addCompaniesRouter);
